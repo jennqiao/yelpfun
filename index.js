@@ -31,20 +31,27 @@ function getRandomInt(max) {
 app.get('/', function (req, res) {
 
 	client.search(searchRequest).then(response => {
-		console.log(response.jsonBody)
 	  return response.jsonBody.businesses;
 	}).catch(e => {
 	  console.log(e);
 	}).then(results => {
-  	let pick = getRandomInt(results.length)
+  	let pick = getRandomInt(results.length);
 	  let firstResult = results[pick];
-
+	  let pick_id = firstResult.id;
 	  let name = firstResult.name;
-	  console.log(firstResult);
-	  let photo = null;
 
-	  //let prettyJson = JSON.stringify(firstResult, null, 4);
-    res.render('index', {pick: pick, name: name, photo: photo, error: null});
+	  client.business(firstResult.alias).then(response => {
+		  return response.jsonBody;
+		}).catch(e => {
+		  console.log(e);
+		}).then(result => {
+			console.log(result)
+			let photo = result.photos[0];
+			let address = result.location.display_address;
+			let hours = JSON.stringify(result.hours, null, 4);
+
+    	res.render('index', {pick: pick, name: name, photo: photo, address: address, hours: hours, error: null});
+		});
 	});
 });
 

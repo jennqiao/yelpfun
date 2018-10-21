@@ -29,8 +29,24 @@
 
     <div class="container">
       <fieldset>
+        <% if(hours !== null){ %>
+          <p><%= hours %></p>
+        <% } %>
+      </fieldset>
+    </div>
+
+    <div class="container">
+      <fieldset>
+        <% if(address !== null){ %>
+          <p><%= address %></p>
+        <% } %>
+      </fieldset>
+    </div>
+
+    <div class="container">
+      <fieldset>
         <% if(photo !== null){ %>
-          <p><%= photo %></p>
+          <p><img src= <%= photo %> ></p>
         <% } %>
       </fieldset>
     </div>
